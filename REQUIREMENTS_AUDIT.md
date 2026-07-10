@@ -25,11 +25,13 @@
 
 ## 尚未完成或只完成底层结构
 
-| 优先级 | 范围               | 当前状态                                                                                                                                                                                                                                    | 完成标准                                                                                                |
-| ------ | ------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------- |
-| P2     | 日历颜色全局自定义 | 已完成：设置页编辑/恢复默认，Rust 与浏览器预览 typed settings 持久化，月/周/日/年视图统一读取                                                                                                                                               | 颜色设置保存到 typed settings，所有视图统一使用并支持恢复默认                                           |
-| P2     | macOS 发布         | 已添加 `.github/workflows/macos-release.yml` 和 `scripts/macos_offline_smoke.sh`，包含 universal `.app`/DMG 构建、bundle identifier 检查、隔离 HOME 启动及 SQLite 初始化检查、tag 签名/公证入口；当前 Windows 环境尚未实际运行 macOS runner | 在 macOS CI 构建、签名、公证并运行核心离线流程；发布前处理当前 bundle identifier 的 `.app` 后缀兼容迁移 |
+| 优先级 | 范围                       | 当前状态                                                                                                                                                                                                                                                                 | 完成标准                                                                                                                                               |
+| ------ | -------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| P2     | 日历颜色全局自定义         | 已完成：设置页编辑/恢复默认，Rust 与浏览器预览 typed settings 持久化，月/周/日/年视图统一读取                                                                                                                                                                            | 颜色设置保存到 typed settings，所有视图统一使用并支持恢复默认                                                                                          |
+| P2     | macOS 发布                 | 已添加 `.github/workflows/macos-release.yml` 和 `scripts/macos_offline_smoke.sh`，包含 universal `.app`/DMG 构建、bundle identifier 检查、隔离 HOME 启动及 SQLite 初始化检查、tag 签名/公证入口；当前 Windows 环境尚未实际运行 macOS runner                              | 在 macOS CI 构建、签名、公证并运行核心离线流程；发布前处理当前 bundle identifier 的 `.app` 后缀兼容迁移                                                |
+| P2     | Android / Google Play 发布 | 已添加 `scripts/verify_android_prerequisites.ps1`、`.github/workflows/android-play-verify.yml` 和 Google Play 清单；CI 将在干净 Linux runner 生成 Android 工程并构建未签名 AAB。当前 Windows 环境没有 JDK、Android SDK/NDK 或 Rust Android targets，因此尚未生成本机 AAB | 在 CI 成功取得 AAB，使用受控 upload key 完成签名并通过 Internal testing；由发布负责人完成 Console 的 Data safety、隐私政策、target SDK 与 listing 复核 |
 
 ## 下一开发顺序
 
-1. 增加 macOS 构建/签名/公证与核心离线流程验证；当前 Windows MVP 的 P1 自动化缺口与日历颜色 P2 已关闭。
+1. 运行 macOS CI 构建/签名/公证与核心离线流程验证。
+2. 运行 Android Play CI AAB 验证，再由发布负责人完成 Play App Signing、Internal testing 与 Console 合规复核。

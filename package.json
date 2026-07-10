@@ -17,6 +17,10 @@
     "test:desktop:e2e": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/run_desktop_e2e.ps1",
     "test:rust": "cargo test --manifest-path src-tauri/Cargo.toml",
     "benchmark:sqlite": "python scripts/benchmark_sqlite.py",
+    "android:verify": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/verify_android_prerequisites.ps1",
+    "android:verify:initialized": "powershell -NoProfile -ExecutionPolicy Bypass -File scripts/verify_android_prerequisites.ps1 -RequireInitializedProject",
+    "android:init": "pnpm tauri android init --ci",
+    "android:build:aab": "pnpm tauri android build -- --aab",
     "preview": "vite preview",
     "tauri": "tauri"
   },

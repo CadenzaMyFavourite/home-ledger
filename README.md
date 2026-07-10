@@ -200,6 +200,12 @@ macOS 的构建入口位于 `.github/workflows/macos-release.yml`。在 macOS 14
 
 推送版本 tag 后，workflow 的签名任务使用以下 GitHub Actions secrets：`APPLE_CERTIFICATE`、`APPLE_CERTIFICATE_PASSWORD`、`APPLE_SIGNING_IDENTITY`、`APPLE_ID`、`APPLE_PASSWORD` 和 `APPLE_TEAM_ID`。签名/公证任务只创建 draft prerelease，发布前仍需在干净 macOS 用户目录执行核心离线启动、SQLite 初始化、备份恢复和卸载数据保留检查。
 
+## Android / Google Play 构建与发布验证
+
+Android 发布验证入口位于 `.github/workflows/android-play-verify.yml`。该工作流在干净的 Linux runner 中安装 JDK、Android API 35、NDK 与 Rust Android targets，生成 Tauri Android 工程，运行 TypeScript、ESLint、Vitest，并构建未签名 AAB artifact；它不会使用或要求任何签名密钥。可在本机先运行 `pnpm android:verify` 检查 JDK、SDK/NDK、环境变量和 Rust targets，再运行 `pnpm android:init` 与 `pnpm android:build:aab`。
+
+签名、Play App Signing、Data safety 声明、隐私政策、Console listing 与内部测试的发布前记录，见 [Google Play 发布与验证清单](./docs/GOOGLE_PLAY_REVIEW.md)。未签名 CI artifact 不能上传 Google Play；必须由发布负责人使用受控的 upload key 签名后提交。
+
 ## 本地 AI
 
 本地 AI 是可选功能。可在“设置 → 本地 AI”配置 Ollama 或 OpenAI-compatible loopback API（包括 LM Studio），填写模型名称、超时和最大上下文长度，并在保存前测试连接。未安装模型时，收支、日历和报告仍正常工作。

@@ -1,0 +1,75 @@
+name: Android Play verification
+
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - "src/**"
+      - "src-tauri/**"
+      - "scripts/verify_android_prerequisites.ps1"
+      - "package.json"
+      - "pnpm-lock.yaml"
+      - ".github/workflows/android-play-verify.yml"
+  push:
+    branches: [main]
+    paths:
+      - "src/**"
+      - "src-tauri/**"
+      - "scripts/verify_android_prerequisites.ps1"
+      - "package.json"
+      - "pnpm-lock.yaml"
+      - ".github/workflows/android-play-verify.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  unsigned-aab:
+    name: Generate and build unsigned AAB
+    runs-on: ubuntu-24.04
+    env:
+      ANDROID_API_LEVEL: "35"
+      ANDROID_NDK_VERSION: "27.2.12479018"
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: pnpm
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 11
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "21"
+      - uses: android-actions/setup-android@v3
+      - uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: aarch64-linux-android,armv7-linux-androideabi,i686-linux-android,x86_64-linux-android
+      - name: Install Android build dependencies
+        shell: bash
+        run: |
+          yes | sdkmanager --licenses
+          sdkmanager "platform-tools" "platforms;android-${ANDROID_API_LEVEL}" "build-tools;35.0.0" "ndk;${ANDROID_NDK_VERSION}"
+          echo "NDK_HOME=${ANDROID_HOME}/ndk/${ANDROID_NDK_VERSION}" >> "$GITHUB_ENV"
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm typecheck
+      - run: pnpm lint
+      - run: pnpm test
+      - name: Generate Android project
+        run: pnpm android:init
+      - name: Build unsigned Android App Bundle
+        run: pnpm android:build:aab
+      - name: Verify output and target API policy baseline
+        shell: bash
+        run: |
+          aab_path="src-tauri/gen/android/app/build/outputs/bundle/universalRelease/app-universal-release.aab"
+          test -s "$aab_path"
+          grep -Eq 'targetSdk(Version)?[[:space:]=]+3[5-9]' src-tauri/gen/android/app/build.gradle.kts
+      - uses: actions/upload-artifact@v4
+        with:
+          name: homeledger-unsigned-aab
+          path: src-tauri/gen/android/app/build/outputs/bundle/universalRelease/app-universal-release.aab
+          if-no-files-found: error
+          retention-days: 14
