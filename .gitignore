@@ -16,6 +16,9 @@ dist-ssr
 .env.*
 !.env.example
 src-tauri/target/
+src-tauri/tauri.appstore.local.conf.json
+src-tauri/Entitlements.appstore.local.plist
+src-tauri/embedded.provisionprofile
 design/renders/
 test-results/
 playwright-report/
