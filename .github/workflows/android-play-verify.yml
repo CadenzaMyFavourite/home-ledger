@@ -65,16 +65,43 @@ jobs:
       - name: Generate Android project
         run: pnpm android:init
       - name: Build unsigned Android App Bundle
-        run: pnpm android:build:aab
+        id: build-aab
+        continue-on-error: true
+        shell: bash
+        run: |
+          set -o pipefail
+          pnpm android:build:aab 2>&1 | tee "${RUNNER_TEMP}/android-aab-build.log"
       - name: Verify output and target API policy baseline
+        if: steps.build-aab.outcome == 'success'
         shell: bash
         run: |
           aab_path="src-tauri/gen/android/app/build/outputs/bundle/universalRelease/app-universal-release.aab"
           test -s "$aab_path"
           grep -Eq 'targetSdk(Version)?[[:space:]=]+3[5-9]' src-tauri/gen/android/app/build.gradle.kts
+      - name: Upload Android build log
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: android-aab-build-log
+          path: ${{ runner.temp }}/android-aab-build.log
+          if-no-files-found: warn
+          retention-days: 14
       - uses: actions/upload-artifact@v4
+        if: steps.build-aab.outcome == 'success'
         with:
           name: homeledger-unsigned-aab
           path: src-tauri/gen/android/app/build/outputs/bundle/universalRelease/app-universal-release.aab
           if-no-files-found: error
           retention-days: 14
+      - name: Surface AAB build failure
+        if: steps.build-aab.outcome != 'success'
+        shell: bash
+        run: |
+          {
+            echo "## Android AAB build failed"
+            echo
+            echo '```text'
+            tail -n 160 "${RUNNER_TEMP}/android-aab-build.log"
+            echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"
+          exit 1
