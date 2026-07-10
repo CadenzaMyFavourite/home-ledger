@@ -50,7 +50,12 @@ jobs:
       - name: Install Android build dependencies
         shell: bash
         run: |
+          # sdkmanager closes stdin after accepting the licenses. With GitHub's
+          # default pipefail setting, that makes `yes` exit on SIGPIPE and can
+          # incorrectly fail this otherwise successful command.
+          set +o pipefail
           yes | sdkmanager --licenses
+          set -o pipefail
           sdkmanager "platform-tools" "platforms;android-${ANDROID_API_LEVEL}" "build-tools;35.0.0" "ndk;${ANDROID_NDK_VERSION}"
           echo "NDK_HOME=${ANDROID_HOME}/ndk/${ANDROID_NDK_VERSION}" >> "$GITHUB_ENV"
       - run: pnpm install --frozen-lockfile
