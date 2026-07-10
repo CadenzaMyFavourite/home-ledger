@@ -1,0 +1,49 @@
+[package]
+name = "home-ledger"
+version = "0.1.0"
+description = "Local-first household finance and event ledger"
+authors = ["HomeLedger contributors"]
+edition = "2024"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[lib]
+# The `_lib` suffix may seem redundant but it is necessary
+# to make the lib name unique and wouldn't conflict with the bin name.
+# This seems to be only an issue on Windows, see https://github.com/rust-lang/cargo/issues/8519
+name = "home_ledger_lib"
+crate-type = ["staticlib", "cdylib", "rlib"]
+
+[build-dependencies]
+tauri-build = { version = "2", features = [] }
+
+[features]
+desktop-e2e = ["dep:tauri-plugin-wdio", "dep:tauri-plugin-wdio-webdriver"]
+
+[dependencies]
+tauri = { version = "2", features = [] }
+tauri-plugin-opener = "2"
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+chrono = { version = "0.4", features = ["serde"] }
+chrono-tz = "0.10"
+csv = "1"
+sqlx = { version = "0.8", features = ["runtime-tokio", "sqlite", "migrate"] }
+thiserror = "2"
+tokio = { version = "1", features = ["macros", "sync"] }
+tracing = "0.1"
+tracing-subscriber = { version = "0.3", features = ["env-filter", "fmt"] }
+uuid = { version = "1", features = ["v7", "serde"] }
+tauri-plugin-notification = "2"
+tauri-plugin-dialog = "2"
+rust_xlsxwriter = "0.95"
+reqwest = { version = "0.13", default-features = false, features = ["json", "rustls"] }
+sha2 = "0.10"
+url = "2"
+zip = { version = "7.2", default-features = false, features = ["deflate"] }
+tauri-plugin-wdio-webdriver = { version = "1.2", optional = true }
+tauri-plugin-wdio = { version = "1.2", optional = true }
+
+[dev-dependencies]
+tempfile = "3"
+tokio = { version = "1", features = ["io-util", "macros", "net", "rt-multi-thread"] }

@@ -1,0 +1,3 @@
+date,amount,merchant,note,type,currency
+2026-06-30,-19.95,Desktop E2E Grocery,Imported through the real Rust CSV pipeline,expense,CAD
+2026-07-01,125.00,Desktop E2E Refund,Imported income row,income,CAD

@@ -1,0 +1,202 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --font-heading: var(--font-sans);
+  --font-sans: Inter, "Noto Sans SC", "Microsoft YaHei UI", system-ui, sans-serif;
+  --color-sidebar-ring: var(--sidebar-ring);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar: var(--sidebar);
+  --color-chart-5: var(--chart-5);
+  --color-chart-4: var(--chart-4);
+  --color-chart-3: var(--chart-3);
+  --color-chart-2: var(--chart-2);
+  --color-chart-1: var(--chart-1);
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-destructive: var(--destructive);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent: var(--accent);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary: var(--secondary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary: var(--primary);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+  --color-foreground: var(--foreground);
+  --color-background: var(--background);
+  --color-income: var(--income);
+  --color-expense: var(--expense);
+  --color-event: var(--event);
+  --color-important: var(--important);
+  --color-travel: var(--travel);
+  --color-warning: var(--warning);
+  --color-ai: var(--ai);
+  --radius-sm: calc(var(--radius) * 0.6);
+  --radius-md: calc(var(--radius) * 0.8);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) * 1.4);
+  --radius-2xl: calc(var(--radius) * 1.8);
+  --radius-3xl: calc(var(--radius) * 2.2);
+  --radius-4xl: calc(var(--radius) * 2.6);
+}
+
+:root {
+  --background: #ffffff;
+  --foreground: #172033;
+  --card: #ffffff;
+  --card-foreground: #172033;
+  --popover: #ffffff;
+  --popover-foreground: #172033;
+  --primary: #087f7a;
+  --primary-foreground: #ffffff;
+  --secondary: #f3f6f8;
+  --secondary-foreground: #172033;
+  --muted: #f3f6f8;
+  --muted-foreground: #667085;
+  --accent: #e8f4f3;
+  --accent-foreground: #172033;
+  --destructive: oklch(0.577 0.245 27.325);
+  --border: #dce3e8;
+  --input: #dce3e8;
+  --ring: #0b918a;
+  --chart-1: oklch(0.87 0 0);
+  --chart-2: oklch(0.556 0 0);
+  --chart-3: oklch(0.439 0 0);
+  --chart-4: oklch(0.371 0 0);
+  --chart-5: oklch(0.269 0 0);
+  --radius: 0.5rem;
+  --sidebar: #f7f9fb;
+  --sidebar-foreground: #172033;
+  --sidebar-primary: #087f7a;
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: #e8f4f3;
+  --sidebar-accent-foreground: #172033;
+  --sidebar-border: #dce3e8;
+  --sidebar-ring: #0b918a;
+  --income: #12843b;
+  --expense: #f05a14;
+  --event: #1976d2;
+  --important: #d9364f;
+  --travel: #7455d9;
+  --warning: #b66a00;
+  --ai: #6d48c7;
+}
+
+.dark {
+  --background: #0b1220;
+  --foreground: #f8fafc;
+  --card: #111827;
+  --card-foreground: #f8fafc;
+  --popover: #111827;
+  --popover-foreground: #f8fafc;
+  --primary: #28b9ae;
+  --primary-foreground: #041311;
+  --secondary: #162234;
+  --secondary-foreground: #f8fafc;
+  --muted: #162234;
+  --muted-foreground: #9aa7b8;
+  --accent: #12323a;
+  --accent-foreground: #f8fafc;
+  --destructive: oklch(0.704 0.191 22.216);
+  --border: #29364a;
+  --input: #29364a;
+  --ring: #39d0c5;
+  --chart-1: oklch(0.87 0 0);
+  --chart-2: oklch(0.556 0 0);
+  --chart-3: oklch(0.439 0 0);
+  --chart-4: oklch(0.371 0 0);
+  --chart-5: oklch(0.269 0 0);
+  --sidebar: #0f172a;
+  --sidebar-foreground: #f8fafc;
+  --sidebar-primary: #28b9ae;
+  --sidebar-primary-foreground: #041311;
+  --sidebar-accent: #12323a;
+  --sidebar-accent-foreground: #f8fafc;
+  --sidebar-border: #29364a;
+  --sidebar-ring: #39d0c5;
+  --income: #45c56b;
+  --expense: #ff8a4c;
+  --event: #66aaf0;
+  --important: #ff7188;
+  --travel: #9b86ed;
+  --warning: #f0ae3d;
+  --ai: #a78bfa;
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground text-sm antialiased;
+    min-width: 320px;
+    min-height: 100vh;
+  }
+  html {
+    @apply font-sans;
+  }
+  button:not(:disabled),
+  [role="button"]:not(:disabled) {
+    cursor: pointer;
+  }
+}
+
+@layer components {
+  .fc {
+    --fc-border-color: var(--border);
+    --fc-page-bg-color: var(--card);
+    --fc-neutral-bg-color: var(--muted);
+    --fc-list-event-hover-bg-color: var(--muted);
+    color: var(--foreground);
+  }
+  .fc .fc-button-primary {
+    border-color: var(--border);
+    background: var(--secondary);
+    color: var(--secondary-foreground);
+    box-shadow: none;
+  }
+  .fc .fc-button-primary:hover,
+  .fc .fc-button-primary:not(:disabled).fc-button-active {
+    border-color: var(--primary);
+    background: var(--primary);
+    color: var(--primary-foreground);
+  }
+  .fc .fc-daygrid-day-number,
+  .fc .fc-col-header-cell-cushion {
+    color: var(--foreground);
+  }
+  .fc .fc-day-today {
+    background: color-mix(in srgb, var(--primary) 10%, transparent) !important;
+  }
+  .fc .fc-event {
+    border-radius: 0.375rem;
+    padding: 1px 3px;
+  }
+  @media (max-width: 640px) {
+    .fc .fc-toolbar {
+      align-items: stretch;
+      gap: 0.5rem;
+    }
+    .fc .fc-toolbar.fc-header-toolbar {
+      flex-direction: column;
+    }
+    .fc .fc-toolbar-chunk {
+      display: flex;
+      justify-content: center;
+    }
+  }
+}

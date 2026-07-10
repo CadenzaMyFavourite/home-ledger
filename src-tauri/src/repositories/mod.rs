@@ -1,0 +1,17 @@
+pub mod attachment_repository;
+pub mod csv_import_repository;
+pub mod daily_note_repository;
+pub mod daily_summary_repository;
+pub mod event_repository;
+pub mod example_data_repository;
+pub mod filter_repository;
+pub mod financial_summary_repository;
+pub mod global_search_repository;
+pub mod local_ai_repository;
+pub mod recurring_repository;
+pub mod reference_data_repository;
+pub mod reminder_repository;
+pub mod settings_repository;
+pub mod tax_repository;
+pub mod template_repository;
+pub mod transaction_repository;

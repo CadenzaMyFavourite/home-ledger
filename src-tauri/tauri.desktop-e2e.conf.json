@@ -1,0 +1,29 @@
+{
+  "$schema": "https://schema.tauri.app/config/2",
+  "productName": "HomeLedger Desktop E2E",
+  "identifier": "com.homeledger.desktop-e2e",
+  "build": {
+    "beforeBuildCommand": "pnpm build:desktop-e2e",
+    "frontendDist": "../dist"
+  },
+  "app": {
+    "withGlobalTauri": true,
+    "windows": [
+      {
+        "title": "HomeLedger Desktop E2E",
+        "width": 1440,
+        "height": 900,
+        "minWidth": 1080,
+        "minHeight": 720,
+        "resizable": true,
+        "center": true
+      }
+    ],
+    "security": {
+      "capabilities": ["default", "desktop-e2e"]
+    }
+  },
+  "bundle": {
+    "active": false
+  }
+}
